@@ -14,7 +14,7 @@ TEE_Result handle_otp_read(void)
 	 * RK356x platform require the address and length of OTP must be
 	 * an integral multiple of 2 integer(half word).
 	 */
-	uint32_t read_len = 2;
+	uint32_t read_len = 16;
 	uint32_t read_offset = 0;
 	uint8_t *read_data;
 
@@ -28,8 +28,9 @@ TEE_Result handle_otp_read(void)
 	if (res != TEE_SUCCESS)
 		EMSG("rk_otp_read failed with code 0x%x", res);
 	else
-		IMSG("rk_otp_read succes with data: 0x%x, 0x%x", *read_data,
-		     *(read_data + 1));
+		IMSG("rk_otp_read succes with data: 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x", *read_data,
+		     *(read_data + 1), *(read_data + 2), *(read_data + 3), *(read_data + 4), *(read_data + 5), *(read_data + 6), *(read_data + 7), *(read_data + 8),
+		     *(read_data + 9), *(read_data + 10), *(read_data + 11), *(read_data + 12), *(read_data + 13), *(read_data + 14), *(read_data + 15));
 
 	TEE_Free(read_data);
 	return res;
@@ -42,16 +43,19 @@ TEE_Result handle_otp_write(void)
 	 * RK356x platform require the address and length of OTP must be
 	 * an integral multiple of 2 integer(half word).
 	 */
-	uint32_t write_len = 2;
-	uint8_t write_data[2] = {0xaa, 0xaa};
-	uint32_t write_offset = 0;
+	uint32_t write_len = 14;
+	//uint8_t write_data[16] = {0xaa, 0xaa, 0xbb, 0xbb, 0xcc, 0xcc, 0xdd, 0xdd, 0xee, 0xee, 0xff, 0xff, 0x11, 0x22, 0x33, 0x44};
+	uint8_t write_data[14] = {0xbb, 0xbb, 0xcc, 0xcc, 0xdd, 0xdd, 0xee, 0xee, 0xff, 0xff, 0x11, 0x22, 0x33, 0x44};
+	uint32_t write_offset = 2;
 
 	res = rk_otp_write(write_offset, write_data, write_len);
 	if (res != TEE_SUCCESS) {
 		EMSG("rk_otp_write failed with code 0x%x", res);
 		return res;
 	}
-	IMSG("rk_otp_write succes with data: 0x%x, 0x%x", write_data[0], write_data[1]);
+	for(uint32_t i = 0; i < write_len; i++){
+		IMSG("[LMH] - rk_otp_write succes with data: 0x%x", write_data[i]);
+	}
 	return res;
 }
 

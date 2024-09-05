@@ -31,13 +31,13 @@ static const struct {
 	{"crypto_aes",			CRYPTO_AES},
 	{"crypto_rsa",			CRYPTO_RSA},
 	{"secstor_ta",			SECSTOR_TA},
-#if (OTP_TEST == ENABLE)
+//#if (OTP_TEST == ENABLE)
 	{"otp_read",			OTP_READ},
 	{"otp_write",			OTP_WRITE},
 	{"otp_size",			OTP_SIZE},
 	{"otp_ns_read",			OTP_NS_READ},
 	{"otp_ns_write",		OTP_NS_WRITE},
-#endif
+//#endif
 	{"trng",			TRNG_READ},
 	{"socket",			SOCKET},
 	{"crypto_hw",			CRYPTO_HW},
